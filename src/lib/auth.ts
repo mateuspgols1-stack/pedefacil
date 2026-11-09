@@ -1,7 +1,8 @@
-import { cache } from "react";
 import { redirect } from "next/navigation";
 
 import { isSupabaseConfigured } from "@/lib/env";
+import { provisionEstablishment } from "@/lib/onboarding";
+import { planLimits, type PlanLimits } from "@/lib/plans";
 import { createClient } from "@/lib/supabase/server";
 import type {
   Establishment,
@@ -23,9 +24,10 @@ export interface AuthContext {
 
 /**
  * Carrega usuário, perfil, estabelecimento e plano da requisição atual.
- * Cacheado por request para evitar consultas repetidas no mesmo render.
+ * Não é cacheado: o layout pode provisionar o estabelecimento e as páginas
+ * filhas precisam enxergar esse registro recém-criado.
  */
-export const getAuthContext = cache(async (): Promise<AuthContext | null> => {
+export async function getAuthContext(): Promise<AuthContext | null> {
   if (!isSupabaseConfigured) return null;
 
   const supabase = await createClient();
