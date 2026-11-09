@@ -36,7 +36,7 @@ export default async function OrdersPage() {
     items: order.order_items ?? [],
   }));
 
-  const config = publicSupabaseConfig();
+  const config = publicSupabaseConfig;
 
   return (
     <div className="space-y-5">
