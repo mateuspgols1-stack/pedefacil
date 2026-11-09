@@ -312,8 +312,6 @@ export default async function DashboardPage() {
           </Card>
         </div>
       </div>
-
-      {isActiveOrder("pending") ? null : null}
     </div>
   );
 }
