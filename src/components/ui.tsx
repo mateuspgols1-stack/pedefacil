@@ -161,7 +161,7 @@ export function Alert({
   children,
   className,
 }: {
-  tone?: "slate" | "green" | "red" | "amber" | "brand";
+  tone?: Tone;
   children: ReactNode;
   className?: string;
 }) {
@@ -171,6 +171,8 @@ export function Alert({
     red: "border-rose-200 bg-rose-50 text-rose-700",
     amber: "border-amber-200 bg-amber-50 text-amber-800",
     brand: "border-brand-200 bg-brand-50 text-brand-800",
+    blue: "border-sky-200 bg-sky-50 text-sky-800",
+    violet: "border-violet-200 bg-violet-50 text-violet-800",
   }[tone];
 
   return (
