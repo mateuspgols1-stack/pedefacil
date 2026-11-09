@@ -153,7 +153,7 @@ export default async function ReportsPage({
         eyebrow="Inteligência"
         title="Relatórios"
         description={`Desempenho dos últimos ${days} dias.`}
-        actions={
+        action={
           <a
             href={`/painel/relatorios/export?dias=${days}`}
             className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50"

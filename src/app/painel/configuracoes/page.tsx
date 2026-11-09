@@ -33,7 +33,7 @@ export default async function SettingsPage() {
         eyebrow="Ajustes"
         title="Configurações"
         description="Dados públicos, operação, horários e plano do seu estabelecimento."
-        actions={
+        action={
           <a
             href={`/m/${ctx.establishment.slug}`}
             target="_blank"
