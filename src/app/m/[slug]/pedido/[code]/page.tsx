@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 
 import { AutoRefresh } from "@/components/auto-refresh";
-import { Alert, Badge, ButtonLink, Card } from "@/components/ui";
+import { Alert, ButtonLink, Card } from "@/components/ui";
 import { isSupabaseConfigured } from "@/lib/env";
 import {
   FULFILLMENT_LABELS,
@@ -14,6 +14,7 @@ import {
 } from "@/lib/format";
 import { ORDER_FLOW } from "@/lib/orders";
 import { createClient } from "@/lib/supabase/server";
+import { cn } from "@/lib/utils";
 import type { Fulfillment, OrderStatus } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
@@ -73,7 +74,14 @@ export default async function TrackOrderPage({
           <Link href={`/m/${slug}`} className="text-sm font-semibold text-slate-500 hover:text-slate-900">
             ← Voltar ao cardápio
           </Link>
-          <Badge tone={meta.tone}>{meta.label}</Badge>
+          <span
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ring-inset",
+              meta.tone,
+            )}
+          >
+            {meta.label}
+          </span>
         </div>
 
         <Card className="p-5">
