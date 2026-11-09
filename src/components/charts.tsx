@@ -46,9 +46,12 @@ export function RevenueChart({ data }: { data: Array<{ label: string; vendas: nu
               fontSize: 12,
               boxShadow: "0 8px 24px rgba(15,23,42,0.08)",
             }}
-            formatter={(value: number, name: string) =>
-              name === "vendas" ? [formatBRL(value), "Faturamento"] : [value, "Pedidos"]
-            }
+            formatter={(value, name) => {
+              const amount = typeof value === "number" ? value : Number(value ?? 0);
+              return name === "vendas"
+                ? [formatBRL(amount), "Faturamento"]
+                : [String(amount), "Pedidos"];
+            }}
           />
           <Area
             type="monotone"
@@ -77,7 +80,7 @@ export function OrdersChart({ data }: { data: Array<{ label: string; pedidos: nu
               border: "1px solid #e2e8f0",
               fontSize: 12,
             }}
-            formatter={(value: number) => [value, "Pedidos"]}
+            formatter={(value) => [String(value ?? 0), "Pedidos"]}
           />
           <Bar dataKey="pedidos" fill="#0ea5e9" radius={[6, 6, 0, 0]} maxBarSize={38} />
         </BarChart>
@@ -100,7 +103,10 @@ export function PaymentChart({ data }: { data: Array<{ name: string; value: numb
           </Pie>
           <Tooltip
             contentStyle={{ borderRadius: 12, border: "1px solid #e2e8f0", fontSize: 12 }}
-            formatter={(value: number) => [formatBRL(value), "Faturamento"]}
+            formatter={(value) => [
+              formatBRL(typeof value === "number" ? value : Number(value ?? 0)),
+              "Faturamento",
+            ]}
           />
         </PieChart>
       </ResponsiveContainer>
