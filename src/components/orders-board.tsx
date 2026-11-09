@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 import { cancelOrderAction, updateOrderStatusAction } from "@/app/painel/pedidos/actions";
-import { Badge, Button, EmptyState } from "@/components/ui";
+import { Button, EmptyState } from "@/components/ui";
 import { formatBRL, formatDateTime, formatPhone, PAYMENT_LABELS, statusMeta } from "@/lib/format";
 import { ACTIVE_STATUSES, nextStatus } from "@/lib/orders";
 import { createBrowserSupabase } from "@/lib/supabase/client";
 import type { Fulfillment, OrderStatus, PaymentMethod } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 export interface OrderItemRow {
   id: string;
@@ -143,7 +144,14 @@ export function OrdersBoard({
                       <Clock className="h-3 w-3" /> {formatDateTime(order.created_at)}
                     </p>
                   </div>
-                  <Badge tone={meta.tone}>{meta.label}</Badge>
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold ring-1 ring-inset",
+                      meta.tone,
+                    )}
+                  >
+                    {meta.label}
+                  </span>
                 </div>
 
                 <div className="mt-3 space-y-1.5 rounded-xl bg-slate-50 p-3 text-xs text-slate-600">
