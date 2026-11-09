@@ -130,6 +130,71 @@ export async function requireSuperadmin(): Promise<AuthContext> {
   return ctx;
 }
 
+const FALLBACK_PLAN: Plan = {
+  id: "",
+  code: "basic",
+  name: "Básico",
+  description: null,
+  price_cents: 4990,
+  max_products: 40,
+  max_categories: 6,
+  max_units: 1,
+  features: { coupons: false, reports: false, branding: false, featured: false },
+  is_active: true,
+  sort_order: 0,
+  created_at: new Date().toISOString(),
+};
+
+export interface EstablishmentContext extends AuthContext {
+  establishment: Establishment;
+  plan: Plan;
+  limits: PlanLimits;
+}
+
+/**
+ * Garante que o usuário autenticado tenha um estabelecimento utilizável.
+ * Se a conta acabou de ser criada, provisiona estabelecimento + assinatura.
+ */
+export async function requireEstablishment(): Promise<EstablishmentContext> {
+  const ctx = await requireAuth("/painel");
+
+  if (isSuperadmin(ctx) && !ctx.establishment) redirect("/admin");
+
+  let establishment = ctx.establishment;
+
+  if (!establishment) {
+    const supabase = await createClient();
+    const metadataName =
+      typeof ctx.user.metadata.establishment_name === "string"
+        ? ctx.user.metadata.establishment_name
+        : "";
+    const fallbackName = ctx.profile.full_name
+      ? `${ctx.profile.full_name} — Meu estabelecimento`
+      : "Meu estabelecimento";
+
+    const { establishment: created, error } = await provisionEstablishment(supabase, {
+      userId: ctx.user.id,
+      establishmentName: metadataName || fallbackName,
+      ownerName: ctx.profile.full_name,
+      phone: typeof ctx.user.metadata.phone === "string" ? ctx.user.metadata.phone : null,
+    });
+
+    if (!created) {
+      throw new Error(error ?? "Não foi possível preparar o seu estabelecimento.");
+    }
+    establishment = created;
+  }
+
+  if (establishment.status === "blocked") redirect("/painel/bloqueado");
+
+  const plan = ctx.plan ?? FALLBACK_PLAN;
+  return { ...ctx, establishment, plan, limits: planLimits(plan) };
+}
+
+export function isOwner(ctx: AuthContext) {
+  return ctx.membership?.role === "owner" || isSuperadmin(ctx);
+}
+
 export function roleLabel(role: UserRole) {
   if (role === "superadmin") return "Superadministrador";
   if (role === "staff") return "Equipe";
