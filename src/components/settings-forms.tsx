@@ -56,7 +56,7 @@ export function IdentityForm({
         <Field label="Nome do estabelecimento *">
           <Input name="name" required defaultValue={values.name} />
         </Field>
-        <Field label="Link do cardápio *" hint={`pedidofacil.app/cardapio/${values.slug}`}>
+        <Field label="Link do cardápio *" hint={`seu-dominio.com/m/${values.slug}`}>
           <Input name="slug" required defaultValue={values.slug} className="lowercase" />
         </Field>
       </div>

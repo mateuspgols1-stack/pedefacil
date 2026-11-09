@@ -35,7 +35,7 @@ export default async function SettingsPage() {
         description="Dados públicos, operação, horários e plano do seu estabelecimento."
         actions={
           <a
-            href={`/cardapio/${ctx.establishment.slug}`}
+            href={`/m/${ctx.establishment.slug}`}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50"

@@ -106,7 +106,7 @@ export async function updateIdentityAction(
   }
 
   revalidatePath("/painel", "layout");
-  revalidatePath(`/cardapio/${slug}`);
+  revalidatePath(`/m/${slug}`);
   return { success: "Dados do estabelecimento atualizados." };
 }
 
@@ -152,7 +152,7 @@ export async function updateOperationAction(
   if (error) return { error: `Não foi possível salvar: ${error.message}` };
 
   revalidatePath("/painel", "layout");
-  revalidatePath(`/cardapio/${ctx.establishment.slug}`);
+  revalidatePath(`/m/${ctx.establishment.slug}`);
   return { success: "Configurações de entrega e pagamento salvas." };
 }
 
@@ -196,6 +196,6 @@ export async function updateHoursAction(
   if (error) return { error: `Não foi possível salvar os horários: ${error.message}` };
 
   revalidatePath("/painel/configuracoes");
-  revalidatePath(`/cardapio/${ctx.establishment.slug}`);
+  revalidatePath(`/m/${ctx.establishment.slug}`);
   return { success: "Horários de funcionamento atualizados." };
 }
