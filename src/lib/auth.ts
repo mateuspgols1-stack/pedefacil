@@ -111,7 +111,7 @@ export async function getAuthContext(): Promise<AuthContext | null> {
     subscription,
     plan,
   };
-});
+}
 
 export function isSuperadmin(ctx: AuthContext | null) {
   return ctx?.profile.role === "superadmin";
