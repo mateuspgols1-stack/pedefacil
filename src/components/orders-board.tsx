@@ -12,6 +12,21 @@ import { createBrowserSupabase } from "@/lib/supabase/client";
 import type { Fulfillment, OrderStatus, PaymentMethod } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
+/** Rótulo do botão que avança o pedido para o próximo status. */
+const NEXT_ACTION_LABEL: Record<OrderStatus, string> = {
+  pending: "Confirmar pedido",
+  confirmed: "Iniciar preparo",
+  preparing: "Marcar como pronto",
+  ready: "Liberar saída",
+  out_for_delivery: "Concluir entrega",
+  completed: "Concluído",
+  canceled: "Cancelado",
+};
+
+function nextActionLabel(status: OrderStatus) {
+  return NEXT_ACTION_LABEL[status] ?? "Avançar";
+}
+
 export interface OrderItemRow {
   id: string;
   name: string;
@@ -230,7 +245,7 @@ export function OrdersBoard({
                         <input type="hidden" name="id" value={order.id} />
                         <input type="hidden" name="status" value={next} />
                         <Button type="submit" size="sm">
-                          {statusMeta(next).action}
+                          {nextActionLabel(next)}
                         </Button>
                       </form>
                     ) : null}
