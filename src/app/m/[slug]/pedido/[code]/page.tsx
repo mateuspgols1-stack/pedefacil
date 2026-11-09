@@ -62,7 +62,7 @@ export default async function TrackOrderPage({
   if (!order || order.establishment.slug !== slug) notFound();
 
   const meta = statusMeta(order.status);
-  const cancelled = order.status === "cancelled";
+  const cancelled = order.status === "canceled";
   const currentIndex = ORDER_FLOW.indexOf(order.status);
 
   return (
